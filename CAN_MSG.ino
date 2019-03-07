@@ -42,6 +42,7 @@ SPI.begin();         //start SPI communication
 }
 
 void loop() {
+  //at first message 1 will have this  
   canMsg1.can_id  = 0x007;
   canMsg1.can_dlc = 8;
   canMsg1.data[0] = 0xEE;
@@ -53,12 +54,16 @@ void loop() {
   canMsg1.data[6] = 0xEE;
   canMsg1.data[7] = 0xEE;
 
- if(!check){
-  if(digitalRead(IMD)) {
-    canMsg1.data[2] = 0x45;
-    flag=1;
+  //when 'check' flag is zero read pins (check for errors in circuits) 
+ if(!check){ 
+  
+  //Read the inputs from circuits, if error is present change a particular byte of message 1 to a unique value
+  //and set the 'flag'
+   if(digitalRead(IMD)) {          
+    canMsg1.data[2] = 0x45;      
+    flag=1;                       
   }
-  else if(digitalRead(BSPD)) {
+  else if(digitalRead(BSPD)) {   
     canMsg1.data[4] = 0x69;
     flag=1;
   }
@@ -70,17 +75,18 @@ void loop() {
     canMsg1.data[0] = 0x28;
     flag=1;
   }
-  else {}
+  else {//no operation }   
+  //if 'flag' is set, send the message
   if(flag) {
     mcp2515.sendMessage(&canMsg1);
     Serial.println("ERROR DETECTED");
-    check=1;
-    flag=0;
+    check=1;     //set 'check' flag to avoid reading the pins again
+    flag=0;      //clear 'flag' to avoid sending the message agin
   }
  }
-  if(check&&(!digitalRead(IMD))&&(!digitalRead(AMS))&&(!digitalRead(BSPD))&&(!digitalRead(SW))) {
-    mcp2515.sendMessage(&canMsg2);
+  if(check&&(!digitalRead(IMD))&&(!digitalRead(AMS))&&(!digitalRead(BSPD))&&(!digitalRead(SW))) {      //if an error occurred ('check' flag is 1) previously and now allpi s are LOW 
+    mcp2515.sendMessage(&canMsg2);         //send message 2 to indicate no error state
     Serial.println("NO MORE ERRORS");
-    check=0;
+    check=0;                      //clear 'check' flag to start checking for errors again
   } 
 }
