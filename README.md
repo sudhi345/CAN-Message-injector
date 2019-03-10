@@ -16,3 +16,10 @@ The status signals of IMD (Insulation Monitoring Device), BSPD (Break System Pla
 Also, a unique CAN frame is put on the CAN bus, indicating that no other errors exist, after a given error has corrected. By default, if no error is detected, no CAN frame is transmitted by the CAN module. 
 
 ![Wiring Diagram](wiring_diagram.jpg "Wiring Diagram")
+
+Steps to be followed:
+1.Install the mcp2515 (arduino-mcp2515-master.zip) library in Arduino IDE. 
+2.Make the connections as shown in the diagram. 
+3.Connect CANL and CANH to the respective CAN Bus (Low and High). 
+4.Verify and Upload the program to arduino. 
+5.Read the messages at another node. 
