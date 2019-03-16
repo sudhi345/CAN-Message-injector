@@ -17,7 +17,8 @@ Also, a unique CAN frame is put on the CAN bus, indicating that no other errors 
 
 ![Wiring Diagram](wiring_diagram.jpg "Wiring Diagram")
 
-Follow these steps... <br>
+**Follow these steps...** <br>
+
 1.Install the mcp2515 [arduino-mcp2515](https://github.com/sudheendra-hegde/CAN-Message-injector/tree/master/arduino-mcp2515)library in Arduino Ide. For more information about installing libraries visit https://www.arduino.cc/en/hacking/libraries <br>
 2.Make the connections as shown in the diagram. <br>
 3.Connect CANL and CANH to the respective CAN Bus (Low and High). <br>
